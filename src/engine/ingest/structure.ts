@@ -16,6 +16,8 @@ const HEADING_MIN_SIZE = 9.9;
 const HEADING_PATTERNS: RegExp[] = [
   /^(\d+(?:\.\d+)*)\s+(.{2,})$/,
   /^(APPENDIX\s+\d+)\s+(.{2,})$/i,
+  // Statistical outputs are numbered by kind: "TABLE 14.2.1 Response Rate".
+  /^(?:TABLE|FIGURE|LISTING)\s+(\d+(?:\.\d+)*)\s+(.{2,})$/i,
 ];
 
 function classifyHeading(line: TextLine): { id: string; heading: string } | null {
@@ -113,6 +115,9 @@ export function buildStructure(
     current = null;
   };
 
+  /** The heading line most recently consumed, for joining wrapped headings. */
+  let lastHeadingLine: TextLine | null = null;
+
   for (const [index, lines] of pages.entries()) {
     const pdfPage = index + 1;
     const threshold = paragraphThreshold(lines);
@@ -120,6 +125,39 @@ export function buildStructure(
     for (const line of lines) {
       const heading = classifyHeading(line);
       if (heading) {
+        /**
+         * A heading too long for one line wraps, and both halves look like
+         * headings. Joining them is not cosmetic: left unjoined, the second
+         * half opens a section whose id is a fragment of a title, and every
+         * paragraph after it is filed under that fragment. An output titled
+         * "TABLE 14.2.1 BREAST PATHOLOGICAL COMPLETE RESPONSE RATE —
+         * PER-PROTOCOL SET" becomes a section called "PER-PROTOCOL SET".
+         */
+        if (
+          current &&
+          lastHeadingLine &&
+          current.section.paragraphs.length === 0 &&
+          current.pending.length === 0 &&
+          lastHeadingLine.pdfPage === line.pdfPage &&
+          Math.abs(lastHeadingLine.fontSize - line.fontSize) < 0.6 &&
+          lastHeadingLine.y - line.y > 0 &&
+          lastHeadingLine.y - line.y < line.fontSize * 2
+        ) {
+          const joined = `${current.section.id === current.section.heading ? current.section.heading : `${current.section.id} ${current.section.heading}`} ${line.text}`;
+          const reclassified = classifyHeading({ ...line, text: joined });
+          if (reclassified) {
+            current.section.id = sections.some((s) => s.id === reclassified.id)
+              ? `${reclassified.id}#${counter}`
+              : reclassified.id;
+            current.section.heading = reclassified.heading;
+          } else {
+            current.section.heading = `${current.section.heading} ${line.text}`;
+          }
+          lastHeadingLine = line;
+          continue;
+        }
+
+        lastHeadingLine = line;
         closeCurrent();
         counter += 1;
         current = {
@@ -134,6 +172,8 @@ export function buildStructure(
         };
         continue;
       }
+
+      lastHeadingLine = null;
 
       if (!current) {
         // Text before the first recognised heading belongs to the cover sheet.

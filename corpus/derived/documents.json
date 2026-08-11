@@ -27,6 +27,15 @@
     "author": "Halcyon Clinical Research Organization (Biometrics) for Calibra Biologics, Inc."
   },
   {
+    "id": "DOC-TFL-C301",
+    "type": "TFL",
+    "fileName": "tfl.pdf",
+    "title": "Tables, Figures and Listings — Primary Analysis — Study CB207-C301",
+    "version": "v1.0",
+    "effectiveDate": "2025-07-11",
+    "author": "Halcyon Clinical Research Organization (Biometrics) for Calibra Biologics, Inc."
+  },
+  {
     "id": "DOC-CRF-C301",
     "type": "CRF",
     "fileName": "crf.pdf",

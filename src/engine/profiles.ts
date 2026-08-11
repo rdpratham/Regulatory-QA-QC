@@ -255,6 +255,13 @@ const CATEGORY_PROFILES: Record<EntityCategory, ConceptProfile> = {
       'A required item with no counterpart in the document that implements it cannot be captured, monitored, or analysed.',
     suggestedAction: 'Confirm whether the item is covered elsewhere; if it is not, the data do not exist.',
   },
+  REGULATORY: {
+    label: 'Regulatory guidance conformance',
+    regulatoryContext:
+      'Published guidance sets out elements a submission document is expected to contain. A missing element is found at review or at inspection, whichever comes first.',
+    suggestedAction:
+      'Confirm whether the element is present elsewhere or in a companion document. If it is genuinely absent, add it at the next revision.',
+  },
   EDITORIAL: {
     label: 'Editorial',
     regulatoryContext:

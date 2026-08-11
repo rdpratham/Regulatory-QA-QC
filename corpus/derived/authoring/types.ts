@@ -10,7 +10,7 @@
  * `npm run corpus`.
  */
 
-export type DocumentType = 'PROTOCOL' | 'SAP' | 'CSR' | 'CRF' | 'IB';
+export type DocumentType = 'PROTOCOL' | 'SAP' | 'CSR' | 'CRF' | 'IB' | 'TFL';
 
 export type Block =
   | { kind: 'para'; text: string }

@@ -528,6 +528,73 @@ const CASES: Case[] = [
     nearMissExpect: ['COMPLETE AND DISTINCT'],
   },
 
+  /* ---------------- tables, figures and listings ---------------- */
+  {
+    rule: 'tfl.population_header',
+    positive: {
+      text: 'CB-207 (N=374) Reference product (N=368) Total (N=742)',
+      documentType: 'TFL',
+      sectionId: '14.2.1',
+      sectionHeading: 'RESPONSE RATE - PER-PROTOCOL SET',
+    },
+    expect: ['742'],
+    conceptKey: 'sample_size.per_protocol',
+    nearMiss: {
+      text: 'CB-207 (N=374) Reference product (N=368) Total (N=742)',
+      documentType: 'TFL',
+      sectionId: '14.9.9',
+      sectionHeading: 'CONCOMITANT MEDICATION BY PREFERRED TERM',
+    },
+  },
+  {
+    rule: 'tfl.output_index',
+    positive: {
+      text: 'Table 14.1.1 Disposition Table 14.1.2 Deviations Table 14.1.4 Demographics',
+      documentType: 'TFL',
+      sectionId: 'LIST OF OUTPUTS',
+      sectionHeading: 'LIST OF OUTPUTS',
+    },
+    expect: ['GAPS - 14.1.3 not indexed'.replace('-', '\u2014')],
+    nearMiss: {
+      text: 'Table 14.1.1 Disposition Table 14.1.2 Deviations Table 14.1.3 Demographics',
+      documentType: 'TFL',
+      sectionId: 'LIST OF OUTPUTS',
+      sectionHeading: 'LIST OF OUTPUTS',
+    },
+    nearMissExpect: ['CONTIGUOUS'],
+  },
+  {
+    rule: 'tfl.source_program',
+    positive: {
+      text: 'CB-207 (N=374) Reference product (N=368). Responders 186 152.',
+      documentType: 'TFL',
+      sectionId: '14.2.2',
+      sectionHeading: 'TABLE 14.2.2 SENSITIVITY ANALYSIS',
+    },
+    expect: ['NO SOURCE PROGRAM CITED'],
+    nearMiss: {
+      text: 'CB-207 (N=374) Reference product (N=368). Source: adeff.sas Output generated 11JUL2025 10:02',
+      documentType: 'TFL',
+      sectionId: '14.2.3',
+      sectionHeading: 'TABLE 14.2.3 SUPPORTIVE ANALYSIS',
+    },
+    nearMissExpect: ['TRACEABLE - adeff.sas'.replace('-', '\u2014')],
+  },
+  {
+    rule: 'tfl.grading_scale',
+    positive: {
+      text: 'Adverse events are graded using the Common Terminology Criteria for Adverse Events version 4.03.',
+      documentType: 'TFL',
+      sectionHeading: 'TABLE 14.3.1 OVERVIEW OF ADVERSE EVENTS',
+    },
+    expect: ['CTCAE 4.03'],
+    nearMiss: {
+      text: 'Adverse events are graded using the Common Terminology Criteria for Adverse Events.',
+      documentType: 'TFL',
+      sectionHeading: 'TABLE 14.3.2 ADVERSE EVENTS BY PREFERRED TERM',
+    },
+  },
+
   /* ---------------- editorial ---------------- */
   {
     rule: 'editorial.misspelling',

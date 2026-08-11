@@ -22,10 +22,29 @@ function urlFor(fileName: string): string {
   return entry[1];
 }
 
+/**
+ * In the single-file build the PDFs are inlined as base64 data URIs. Those are
+ * decoded directly rather than fetched: a content security policy that blocks
+ * external requests can also block `fetch` against a data: URL, and there is no
+ * reason to make a request for bytes that are already in memory.
+ */
+function decodeDataUri(url: string): Uint8Array {
+  const base64 = url.slice(url.indexOf(',') + 1);
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
 export async function loadCorpus(): Promise<CorpusFile[]> {
   const files: CorpusFile[] = [];
   for (const descriptor of descriptors as DocumentDescriptor[]) {
-    const response = await fetch(urlFor(descriptor.fileName));
+    const url = urlFor(descriptor.fileName);
+    if (url.startsWith('data:')) {
+      files.push({ descriptor, data: decodeDataUri(url) });
+      continue;
+    }
+    const response = await fetch(url);
     if (!response.ok) throw new Error(`could not read ${descriptor.fileName}`);
     files.push({ descriptor, data: new Uint8Array(await response.arrayBuffer()) });
   }

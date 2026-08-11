@@ -1,4 +1,5 @@
 import { Check, CircleAlert, Play } from 'lucide-react';
+import { RULES } from '../../engine/extract';
 import { useStore } from '../../store';
 import { Panel, Stat } from '../components/primitives';
 
@@ -94,12 +95,43 @@ export function RunQc({ onComplete }: { onComplete: () => void }) {
                 value={result.findings.length}
                 hint={`${result.findings.filter((f) => f.severity === 'CRITICAL').length} critical`}
               />
-              <Stat label="Ruleset" value={result.rulesetVersion} />
+              <Stat
+                label="Rules that matched"
+                value={`${new Set(result.entities.map((e) => e.extractorRule)).size}/${RULES.length}`}
+                hint="a rule that finds nothing is coverage, not a pass"
+              />
               <Stat
                 label="Run"
                 value={<span className="text-[13px]">{result.runTimestamp.replace('T', ' ').slice(0, 19)}</span>}
               />
             </div>
+          </Panel>
+
+          <Panel title="Rule coverage">
+            <div className="flex flex-wrap gap-1.5 px-4 py-3">
+              {RULES.map((rule) => {
+                const count = result.entities.filter((e) => e.extractorRule === rule.id).length;
+                return (
+                  <span
+                    key={rule.id}
+                    title={`${rule.description}${count ? ` — ${count} entities` : ' — no match in this document set'}`}
+                    className="mono border px-1.5 py-0.5 text-[10.5px] rule"
+                    style={{
+                      color: count ? 'var(--ink)' : 'var(--ink-faint)',
+                      background: count ? 'var(--sunken)' : 'transparent',
+                    }}
+                  >
+                    {rule.id}
+                    {count > 0 && <span className="text-ink-faint"> {count}</span>}
+                  </span>
+                );
+              })}
+            </div>
+            <p className="border-t px-4 py-2.5 text-[11.5px] leading-relaxed text-ink-faint rule">
+              Every rule ran against every paragraph. A greyed rule matched nothing here — on a
+              document written to different phrasing, expect fewer to match, and read a short
+              findings list as the coverage figure above rather than as a clean document.
+            </p>
           </Panel>
 
           <Panel title="Derivations recomputed from the documents">

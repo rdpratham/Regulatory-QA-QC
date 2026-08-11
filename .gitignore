@@ -12,3 +12,6 @@ corpus/source/*
 
 # TypeScript incremental build state
 *.tsbuildinfo
+
+# Single-file artifact build output
+dist-artifact

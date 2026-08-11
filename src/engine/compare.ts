@@ -1,5 +1,6 @@
 import type { AuditLog } from './audit';
 import { contentTokens, differsOnlyByCaseOrPunctuation } from './extract/normalize';
+import type { GuidanceCheck } from './guidance';
 import { profileFor } from './profiles';
 import { scoreConfidence, severityFor, SEVERITY_ORDER } from './severity';
 import type {
@@ -28,7 +29,7 @@ import type {
  * output changes. There is no findings array to fall back on.
  */
 
-const DOCUMENT_ORDER: DocumentType[] = ['PROTOCOL', 'SAP', 'CSR', 'CRF', 'IB'];
+const DOCUMENT_ORDER: DocumentType[] = ['PROTOCOL', 'SAP', 'CSR', 'TFL', 'CRF', 'IB'];
 
 export type CompareResult = {
   findings: Finding[];
@@ -150,6 +151,7 @@ const COVERAGE_EXPECTATIONS: {
 export function compare(
   entities: Entity[],
   arithmetic: ArithmeticCheck[],
+  guidance: GuidanceCheck[],
   documents: ParsedDocument[],
   audit?: AuditLog,
 ): CompareResult {
@@ -178,6 +180,7 @@ export function compare(
   drafts.push(...policyDrafts(entities));
   drafts.push(...equivalenceVerdictDrafts(entities));
   drafts.push(...arithmeticDrafts(arithmetic));
+  drafts.push(...guidanceDrafts(guidance));
 
   const findings: Finding[] = drafts
     .sort(
@@ -190,7 +193,11 @@ export function compare(
     .map((draft, i) => ({ ...draft, id: `F-${String(i + 1).padStart(3, '0')}` }));
 
   const conceptsCompared =
-    groups.size + RELATED_PAIRS.length + COVERAGE_EXPECTATIONS.length + arithmetic.length;
+    groups.size +
+    RELATED_PAIRS.length +
+    COVERAGE_EXPECTATIONS.length +
+    arithmetic.length +
+    guidance.length;
 
   audit?.append({
     eventType: 'COMPARISON_RUN',
@@ -781,6 +788,60 @@ function arithmeticDrafts(checks: ArithmeticCheck[]): Draft[] {
         documentTypes: [check.citation.documentType],
         regulatoryContext: profile.regulatoryContext,
         suggestedAction: profile.suggestedAction,
+        disposition: null,
+      };
+    });
+}
+
+/* ------------------------------------------------------------------ */
+/* Regulatory guidance conformance                                     */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A different question from everything above: not "do these documents agree?"
+ * but "does each document contain what the guidance requires?".
+ *
+ * Only the requirements that could not be located become findings. The ones
+ * that were located are carried on the result as satisfied checks — a
+ * conformance report that lists twenty-eight requirements checked and four not
+ * located is worth far more to a QC lead than one that lists four problems.
+ */
+function guidanceDrafts(checks: GuidanceCheck[]): Draft[] {
+  return checks
+    .filter((check) => check.outcome === 'NOT_LOCATED')
+    .map((check) => {
+      const { requirement } = check;
+      const cite = `${requirement.source.document}${
+        requirement.source.section ? ` §${requirement.source.section}` : ''
+      }`;
+      const { score, factors } = scoreConfidence({
+        kind: 'GUIDANCE',
+        entities: [],
+        variants: new Map(),
+        benign: 'none',
+      });
+
+      return {
+        conceptKey: `guidance.${requirement.id}`,
+        category: 'REGULATORY' as EntityCategory,
+        severity: requirement.severity,
+        confidence: score,
+        confidenceFactors: [
+          ...factors,
+          {
+            label: 'Detection limit',
+            contribution: 0,
+            detail:
+              'This check searches section headings and paragraph text for the element. An element present under wording the check does not recognise reads as absent, so confirm before acting — the check reports what it could not locate, not what is not there.',
+          },
+        ],
+        scope: 'INTRA_DOCUMENT' as FindingScope,
+        title: `${requirement.title} — not located in ${check.documentType}`,
+        description: `${cite} expects: ${requirement.requirement} No section heading or paragraph matching this element was found in ${check.documentType}.`,
+        occurrences: [],
+        documentTypes: [check.documentType],
+        regulatoryContext: `${requirement.rationale} Source: ${requirement.source.issuer} — ${cite}.`,
+        suggestedAction: `Confirm whether this element is covered elsewhere in ${check.documentType} under different wording, or in a companion document or agreement. If it is genuinely absent, add it at the next revision and record the gap as a documentation deviation.`,
         disposition: null,
       };
     });

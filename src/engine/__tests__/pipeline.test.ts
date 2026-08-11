@@ -43,10 +43,10 @@ function matching(conceptKey: string, item: { scope?: string; evidence?: string 
 }
 
 describe('ingestion produced a usable document set', () => {
-  it('parsed all five documents', () => {
-    expect(result.documents).toHaveLength(5);
+  it('parsed every document in the corpus', () => {
+    expect(result.documents).toHaveLength(6);
     expect(new Set(result.documents.map((d) => d.type))).toEqual(
-      new Set(['PROTOCOL', 'SAP', 'CSR', 'CRF', 'IB']),
+      new Set(['PROTOCOL', 'SAP', 'CSR', 'TFL', 'CRF', 'IB']),
     );
   });
 
@@ -177,7 +177,9 @@ describe('scoring and ordering', () => {
 describe('audit trail', () => {
   it('records every stage of the run against a single ruleset version', () => {
     const types = audit.events().map((e) => e.eventType);
-    expect(types.filter((t) => t === 'DOCUMENT_INGESTED')).toHaveLength(5);
+    expect(types.filter((t) => t === 'DOCUMENT_INGESTED')).toHaveLength(
+      result.documents.length,
+    );
     expect(types).toContain('EXTRACTION_COMPLETED');
     expect(types).toContain('COMPARISON_RUN');
     for (const event of audit.events()) {

@@ -96,6 +96,8 @@ const CATEGORY_SEVERITY: Record<EntityCategory, Severity> = {
   // A required assessment with no capture field means the data do not exist to
   // be filed, monitored, or analysed. That is data integrity, not formatting.
   COVERAGE: 'MAJOR',
+  // Severity for a guidance requirement comes from the requirement itself.
+  REGULATORY: 'MAJOR',
   TERMINOLOGY: 'MINOR',
   EDITORIAL: 'MINOR',
 };
@@ -131,7 +133,8 @@ export type ConfidenceKind =
   | 'COVERAGE_GAP'
   | 'RELATED_PAIR'
   | 'CLUSTER'
-  | 'ARITHMETIC';
+  | 'ARITHMETIC'
+  | 'GUIDANCE';
 
 export type ConfidenceInput = {
   kind: ConfidenceKind;
@@ -148,6 +151,7 @@ const BASE: Record<ConfidenceKind, number> = {
   RELATED_PAIR: 0.32,
   CLUSTER: 0.28,
   ARITHMETIC: 0.45,
+  GUIDANCE: 0.4,
 };
 
 const W_SPECIFICITY = 0.3;
@@ -245,6 +249,8 @@ function baselineDetail(kind: ConfidenceKind): string {
       return 'Two or more surface forms were clustered as naming the same thing.';
     case 'ARITHMETIC':
       return 'A derivation stated in the document does not reproduce when recomputed.';
+    case 'GUIDANCE':
+      return 'An element required by published regulatory guidance was not located in the document.';
     default:
       return 'Two or more sources assert different normalized values for the same concept.';
   }

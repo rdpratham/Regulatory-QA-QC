@@ -49,6 +49,7 @@ function inferType(fileName: string): DocumentType {
   if (name.includes('csr')) return 'CSR';
   if (name.includes('crf')) return 'CRF';
   if (name.includes('ib') || name.includes('brochure')) return 'IB';
+  if (name.includes('tfl') || name.includes('listing')) return 'TFL';
   return 'PROTOCOL';
 }
 

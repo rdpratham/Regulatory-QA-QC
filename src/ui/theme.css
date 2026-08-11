@@ -24,29 +24,34 @@
  */
 
 :root {
-  /* Surfaces — cool grey, never cream */
-  --surface: #f7f8f9;
+  /* Surfaces — white and the palest blue. No grey, no cream. */
+  --surface: #f2f6fc;
   --raised: #ffffff;
-  --sunken: #eef0f2;
+  --sunken: #e7eefa;
 
-  /* Hairlines */
-  --line: #e0e3e7;
-  --line-strong: #c3c8ce;
+  /* Hairlines — blue, so even the structure belongs to the palette */
+  --line: #d3e0f2;
+  --line-strong: #a7c1e2;
 
-  /* Ink */
-  --ink: #12151a;
-  --ink-muted: #565d67;
-  --ink-faint: #878e98;
+  /* Ink — navy, not black. Black sitting next to blue reads as a third colour. */
+  --ink: #0c1c33;
+  --ink-muted: #3f5b7e;
+  --ink-faint: #7893b4;
+
+  /* Brand — the blue every structural element is built from */
+  --brand: #1155cc;
+  --brand-deep: #0b3f9c;
+  --brand-tint: #dce8fb;
 
   /* Severity — the only place colour carries meaning.
-     Oxblood, ochre, slate: three colours that read as a register of record
-     rather than as a traffic light on a dashboard. */
-  --critical: #8f1d21;
-  --major: #96620c;
-  --minor: #47566a;
+     Three steps inside the same palette: red for what stops a submission,
+     blue for what will raise a question, pale blue for what is merely untidy. */
+  --critical: #c8102e;
+  --major: #2f6fb5;
+  --minor: #7893b4;
 
   /* Dispositioned — deliberately inert */
-  --settled: #7c848e;
+  --settled: #90a6c0;
 
   --font-ui: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
@@ -75,7 +80,7 @@ body {
    than product teams expect, and an invisible focus ring fails accessibility
    review as surely as it fails them. */
 :focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 2px solid var(--brand);
   outline-offset: 1px;
 }
 
@@ -123,7 +128,7 @@ body {
   }
 
   .field:focus {
-    outline: 2px solid var(--ink);
+    outline: 2px solid var(--brand);
     outline-offset: -1px;
   }
 
@@ -147,13 +152,27 @@ body {
   }
 
   .btn-primary {
-    background: var(--ink);
+    background: var(--brand);
     color: var(--raised);
-    border-color: var(--ink);
+    border-color: var(--brand);
   }
 
   .btn-primary:hover:not(:disabled) {
-    background: #000;
+    background: var(--brand-deep);
+    border-color: var(--brand-deep);
+  }
+
+  /* Reserved for the one destructive-adjacent action per screen. Red is a
+     severity colour first; a button wearing it has to have earned it. */
+  .btn-danger {
+    background: var(--critical);
+    color: var(--raised);
+    border-color: var(--critical);
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background: #a50c25;
+    border-color: #a50c25;
   }
 
   .btn-primary:disabled {
@@ -188,14 +207,14 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(18, 21, 26, 0.06), transparent);
+  background: linear-gradient(90deg, transparent, rgba(17, 85, 204, 0.1), transparent);
   animation: sweep 1.1s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .stage-active::after {
     animation: none;
-    background: rgba(18, 21, 26, 0.04);
+    background: rgba(17, 85, 204, 0.06);
   }
 }
 

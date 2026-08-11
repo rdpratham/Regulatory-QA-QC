@@ -6,6 +6,8 @@ import type { AuditEventType } from '../../engine/types';
 import { Empty, Panel } from '../components/primitives';
 
 const EVENT_TYPES: AuditEventType[] = [
+  'SESSION_STARTED',
+  'SESSION_ENDED',
   'DOCUMENT_INGESTED',
   'EXTRACTION_COMPLETED',
   'COMPARISON_RUN',

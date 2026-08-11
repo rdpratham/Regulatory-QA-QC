@@ -1,3 +1,5 @@
+import type { GuidanceCheck } from './guidance';
+
 /**
  * Core data model for the Cross-Document Consistency QC engine.
  *
@@ -11,7 +13,7 @@
  * hybrid rules+LLM extractor. See PRODUCTION.md.
  */
 
-export type DocumentType = 'PROTOCOL' | 'SAP' | 'CSR' | 'CRF' | 'IB';
+export type DocumentType = 'PROTOCOL' | 'SAP' | 'CSR' | 'CRF' | 'IB' | 'TFL';
 
 /* ------------------------------------------------------------------ */
 /* Ingestion                                                           */
@@ -111,6 +113,7 @@ export type EntityCategory =
   | 'CRF_MAPPING'
   | 'DERIVATION'
   | 'COVERAGE'
+  | 'REGULATORY'
   | 'EDITORIAL';
 
 export type Citation = {
@@ -224,6 +227,8 @@ export type Finding = {
 /* ------------------------------------------------------------------ */
 
 export type AuditEventType =
+  | 'SESSION_STARTED'
+  | 'SESSION_ENDED'
   | 'DOCUMENT_INGESTED'
   | 'EXTRACTION_COMPLETED'
   | 'COMPARISON_RUN'
@@ -250,6 +255,7 @@ export type PipelineResult = {
   entities: Entity[];
   findings: Finding[];
   arithmetic: ArithmeticCheck[];
+  guidance: GuidanceCheck[];
   conceptsCompared: number;
   rulesetVersion: string;
   runTimestamp: string;

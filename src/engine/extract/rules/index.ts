@@ -6,6 +6,7 @@ import { NUMERIC_RULES } from './numeric';
 import { POPULATION_RULES } from './population';
 import { SCHEDULE_RULES } from './schedule';
 import { STATISTICAL_RULES } from './statistical';
+import { TFL_RULES } from './tfl';
 import { TERMINOLOGY_RULES } from './terminology';
 import type { Rule } from './types';
 
@@ -24,6 +25,7 @@ export const RULES: Rule[] = [
   ...CROSSREF_RULES,
   ...CRF_MAPPING_RULES,
   ...DERIVATION_RULES,
+  ...TFL_RULES,
   ...EDITORIAL_RULES,
 ];
 

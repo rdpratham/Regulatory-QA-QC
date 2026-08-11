@@ -2,6 +2,7 @@ import { RULESET_VERSION } from '../study';
 import { runArithmetic } from './arithmetic';
 import { AuditLog } from './audit';
 import { compare } from './compare';
+import { checkGuidance } from './guidance';
 import { RulesExtractor, type Extractor } from './extract';
 import { indexParagraphs, ingestPdf, type DocumentDescriptor } from './ingest';
 import type { PipelineResult } from './types';
@@ -85,13 +86,16 @@ export async function runPipeline(
   });
 
   const arithmetic = runArithmetic(entities, paragraphs);
+  const guidance = checkGuidance(documents);
   await stage({
     key: 'COMPARE',
-    label: 'Recomputing stated derivations and cross-referencing concepts',
-    detail: `${arithmetic.filter((a) => a.outcome === 'CONFIRMED').length} of ${arithmetic.length} derivations reproduce`,
+    label: 'Recomputing derivations and checking guidance conformance',
+    detail:
+      `${arithmetic.filter((a) => a.outcome === 'CONFIRMED').length} of ${arithmetic.length} derivations reproduce; ` +
+      `${guidance.filter((g) => g.outcome === 'SATISFIED').length} of ${guidance.length} guidance requirements located`,
   });
 
-  const { findings, conceptsCompared } = compare(entities, arithmetic, documents, audit);
+  const { findings, conceptsCompared } = compare(entities, arithmetic, guidance, documents, audit);
   await stage({
     key: 'SCORE',
     label: 'Scoring findings',
@@ -105,6 +109,7 @@ export async function runPipeline(
       entities,
       findings,
       arithmetic,
+      guidance,
       conceptsCompared,
       rulesetVersion: RULESET_VERSION,
       runTimestamp: now(),

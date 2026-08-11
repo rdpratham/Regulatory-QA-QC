@@ -23,6 +23,14 @@
     "printedPages": 9,
     "pageOffset": 2
   },
+  "DOC-TFL-C301": {
+    "type": "TFL",
+    "version": "v1.0",
+    "file": "tfl.pdf",
+    "pdfPages": 10,
+    "printedPages": 9,
+    "pageOffset": 1
+  },
   "DOC-CRF-C301": {
     "type": "CRF",
     "version": "v3.1",

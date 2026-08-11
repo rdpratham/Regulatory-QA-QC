@@ -20,6 +20,25 @@ beforeAll(async () => {
   documents = new Map(parsed.map((d) => [d.type, d]));
 }, 60_000);
 
+describe('the caller keeps its bytes', () => {
+  /**
+   * pdf.js transfers the buffer it is handed to its worker, which detaches it
+   * and leaves the caller holding a zero-length array. Every file in this
+   * application is parsed more than once — a second run, and the cross-document
+   * pass — so ingestion must not consume what it was given.
+   */
+  it('parses the same bytes twice and gets the same document', async () => {
+    const [file] = loadDerivedCorpus();
+    const first = await ingestPdf(file.descriptor, file.data);
+    expect(file.data.byteLength).toBeGreaterThan(0);
+
+    const second = await ingestPdf(file.descriptor, file.data);
+    expect(second.pdfPageCount).toBe(first.pdfPageCount);
+    expect(second.sections.length).toBe(first.sections.length);
+    expect(second.printedPageCount).toBe(first.printedPageCount);
+  }, 60_000);
+});
+
 describe('de-boilerplating', () => {
   it('drops the rotated watermark and margin stamp from every document', () => {
     for (const document of documents.values()) {

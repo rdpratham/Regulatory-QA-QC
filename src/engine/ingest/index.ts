@@ -5,7 +5,7 @@ import { detectPagination } from './pagination';
 import { extractItems, toLines } from './pdf';
 import { buildStructure } from './structure';
 
-export { configurePdfWorker, isPdfWorkerConfigured } from './pdf';
+export { configurePdfWorker, configurePdfWorkerPort, isPdfWorkerConfigured } from './pdf';
 export { detectPagination, printedPageFor } from './pagination';
 export { deboilerplate, dropRotated, repairLineBreaks } from './deboilerplate';
 export { buildStructure, extractAbbreviations } from './structure';

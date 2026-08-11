@@ -23,6 +23,19 @@ export function configurePdfWorker(workerSrc: string): void {
   configured = true;
 }
 
+/**
+ * Single-file builds have no separate worker file to point at, so the worker is
+ * constructed from an inlined blob and handed over as a port instead.
+ *
+ * If the host's content security policy refuses a blob-backed worker, the
+ * caller leaves this unset and pdf.js falls back to parsing on the main thread.
+ * That is slower and, for five documents totalling about 112 KB, imperceptible.
+ */
+export function configurePdfWorkerPort(port: Worker): void {
+  pdfjs.GlobalWorkerOptions.workerPort = port;
+  configured = true;
+}
+
 export function isPdfWorkerConfigured(): boolean {
   return configured;
 }
@@ -33,8 +46,13 @@ function rotationOf(transform: number[]): number {
 }
 
 export async function extractItems(data: Uint8Array): Promise<TextItem[][]> {
+  // pdf.js takes ownership of the buffer it is given: it transfers it to the
+  // worker, which detaches it here and leaves the caller holding a zero-length
+  // array. The caller's bytes are not ours to consume — the same file is parsed
+  // again by a second run, and again by the cross-document pass — so pdf.js gets
+  // a copy and the original survives.
   const task = pdfjs.getDocument({
-    data,
+    data: new Uint8Array(data),
     useSystemFonts: false,
     verbosity: 0,
   });

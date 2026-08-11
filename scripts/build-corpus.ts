@@ -26,6 +26,7 @@ import { SAP } from '../corpus/derived/authoring/sap';
 import { CSR } from '../corpus/derived/authoring/csr';
 import { CRF } from '../corpus/derived/authoring/crf';
 import { IB } from '../corpus/derived/authoring/ib';
+import { TFL } from '../corpus/derived/authoring/tfl';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(HERE, '..', 'corpus', 'derived');
@@ -367,7 +368,7 @@ async function build(document: AuthoredDocument): Promise<{
   };
 }
 
-const DOCUMENTS = [PROTOCOL, SAP, CSR, CRF, IB];
+const DOCUMENTS = [PROTOCOL, SAP, CSR, TFL, CRF, IB];
 
 const summary: Record<string, unknown> = {};
 for (const document of DOCUMENTS) {

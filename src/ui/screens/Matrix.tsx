@@ -4,7 +4,7 @@ import type { EntityCategory, Severity } from '../../engine/types';
 import { Empty, Panel, SEVERITY_COLOR } from '../components/primitives';
 import type { FindingsFilter } from './Findings';
 
-const DOCUMENT_ORDER = ['PROTOCOL', 'SAP', 'CSR', 'CRF', 'IB'] as const;
+const DOCUMENT_ORDER = ['PROTOCOL', 'SAP', 'CSR', 'TFL', 'CRF', 'IB'] as const;
 
 /**
  * Document × category, shaded by the highest severity found. This is the
