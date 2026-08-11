@@ -9,3 +9,6 @@ coverage
 # Real disclosure documents are engineering fixtures, never distributed.
 corpus/source/*
 !corpus/source/README.md
+
+# TypeScript incremental build state
+*.tsbuildinfo
