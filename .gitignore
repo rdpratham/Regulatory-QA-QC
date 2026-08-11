@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+coverage
+
+# Real disclosure documents are engineering fixtures, never distributed.
+corpus/source/*
+!corpus/source/README.md

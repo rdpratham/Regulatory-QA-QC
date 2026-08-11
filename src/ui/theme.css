@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * DESIGN TOKENS
+ *
+ * The audience is a Director of Regulatory Affairs and a GCP Compliance Lead,
+ * measured on inspection readiness. This has to read as an instrument of
+ * record, so the whole palette is built around one idea: in this product the
+ * value IS the evidence, and evidence should look like evidence.
+ *
+ * Surfaces      cool near-white, three steps, no warmth anywhere
+ * Rules         hairlines only; no shadows, no rounded cards, no elevation
+ * Colour        appears with force in exactly one place — severity
+ * Type          a grotesque for the interface, a real monospace for every
+ *               extracted value, document identifier, page reference and
+ *               timestamp. The monospace is the signature.
+ * Citations     set like a legal citation, because functionally that is what
+ *               they are: PROTOCOL v2.0 · §5.2 · p.7 (pdf 9)
+ *
+ * No web fonts are loaded. The whole application runs offline, and a demo that
+ * silently reaches for a font CDN is a demo that fails the security question.
+ */
+
+:root {
+  /* Surfaces — cool grey, never cream */
+  --surface: #f7f8f9;
+  --raised: #ffffff;
+  --sunken: #eef0f2;
+
+  /* Hairlines */
+  --line: #e0e3e7;
+  --line-strong: #c3c8ce;
+
+  /* Ink */
+  --ink: #12151a;
+  --ink-muted: #565d67;
+  --ink-faint: #878e98;
+
+  /* Severity — the only place colour carries meaning.
+     Oxblood, ochre, slate: three colours that read as a register of record
+     rather than as a traffic light on a dashboard. */
+  --critical: #8f1d21;
+  --major: #96620c;
+  --minor: #47566a;
+
+  /* Dispositioned — deliberately inert */
+  --settled: #7c848e;
+
+  --font-ui: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, 'JetBrains Mono', Menlo,
+    Consolas, 'Liberation Mono', monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Focus is always visible. Regulatory users work keyboard-first more often
+   than product teams expect, and an invisible focus ring fails accessibility
+   review as surely as it fails them. */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+@layer components {
+  .rule {
+    border-color: var(--line);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-variant-ligatures: none;
+  }
+
+  /* Document type in a citation: letterspaced uppercase, like a case name. */
+  .doctype {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 10px;
+    font-weight: 600;
+  }
+
+  .citation {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    white-space: nowrap;
+  }
+
+  .label {
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-faint);
+  }
+
+  .field {
+    border: 1px solid var(--line-strong);
+    background: var(--raised);
+    padding: 5px 8px;
+    font-size: 12.5px;
+    color: var(--ink);
+    width: 100%;
+  }
+
+  .field:focus {
+    outline: 2px solid var(--ink);
+    outline-offset: -1px;
+  }
+
+  .btn {
+    border: 1px solid var(--line-strong);
+    background: var(--raised);
+    padding: 5px 11px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .btn:hover:not(:disabled) {
+    background: var(--sunken);
+  }
+
+  .btn:disabled {
+    color: var(--ink-faint);
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--raised);
+    border-color: var(--ink);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: #000;
+  }
+
+  .btn-primary:disabled {
+    background: var(--ink-faint);
+    border-color: var(--ink-faint);
+    color: var(--raised);
+  }
+
+  /* The highlighted value inside a source excerpt. Underline rather than fill:
+     a filled highlight reads as an annotation somebody added, and the whole
+     point is that this text is the document, untouched. */
+  .evidence {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--ink);
+    box-shadow: inset 0 -2px 0 currentColor;
+  }
+}
+
+/* Motion communicates state or it does not appear. The QC stepper animates
+   because it is reporting progress; nothing else does. */
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(200%);
+  }
+}
+
+.stage-active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(18, 21, 26, 0.06), transparent);
+  animation: sweep 1.1s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-active::after {
+    animation: none;
+    background: rgba(18, 21, 26, 0.04);
+  }
+}
+
+/* Print — the discrepancy report is a document, not a screenshot. */
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 16mm 20mm 16mm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 10pt;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-block {
+    break-inside: avoid;
+  }
+
+  .print-page-break {
+    break-before: page;
+  }
+
+  a[href]::after {
+    content: '';
+  }
+}

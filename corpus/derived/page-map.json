@@ -1,0 +1,42 @@
+{
+  "DOC-PROT-C301": {
+    "type": "PROTOCOL",
+    "version": "v2.0",
+    "file": "protocol.pdf",
+    "pdfPages": 18,
+    "printedPages": 16,
+    "pageOffset": 2
+  },
+  "DOC-SAP-C301": {
+    "type": "SAP",
+    "version": "v1.0",
+    "file": "sap.pdf",
+    "pdfPages": 31,
+    "printedPages": 29,
+    "pageOffset": 2
+  },
+  "DOC-CSR-C301": {
+    "type": "CSR",
+    "version": "v1.0",
+    "file": "csr.pdf",
+    "pdfPages": 11,
+    "printedPages": 9,
+    "pageOffset": 2
+  },
+  "DOC-CRF-C301": {
+    "type": "CRF",
+    "version": "v3.1",
+    "file": "crf.pdf",
+    "pdfPages": 16,
+    "printedPages": 15,
+    "pageOffset": 1
+  },
+  "DOC-IB-CB207": {
+    "type": "IB",
+    "version": "v4.0",
+    "file": "ib.pdf",
+    "pdfPages": 13,
+    "printedPages": 12,
+    "pageOffset": 1
+  }
+}

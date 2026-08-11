@@ -1,0 +1,410 @@
+{
+  "study": "CB207-C301",
+  "generatedFrom": "corpus/derived/authoring",
+  "note": "Every item here is planted in the authored corpus and reproduced structurally from the ANSWER_KEY catalogue. The test suite in src/engine/__tests__/pipeline.test.ts asserts this file against the real pipeline output. Editing the corpus and not this file will fail the build, which is the point.",
+  "items": [
+    {
+      "id": "A1",
+      "summary": "Planned 752 randomised against 811 in the regional disposition table and the study report",
+      "kind": "FINDING",
+      "severity": "CRITICAL",
+      "conceptKey": "sample_size.planned~sample_size.randomised",
+      "scope": "CROSS_DOCUMENT",
+      "evidence": "811"
+    },
+    {
+      "id": "A2",
+      "summary": "Region counts sum correctly to 811",
+      "kind": "TRUE_NEGATIVE",
+      "arithmetic": "total column sums to its stated total"
+    },
+    {
+      "id": "A3",
+      "summary": "331 evaluable inflated for 12% dropout gives 376 per arm and 752 in total",
+      "kind": "TRUE_NEGATIVE",
+      "arithmetic": "Sample size inflation for dropout"
+    },
+    {
+      "id": "A4",
+      "summary": "Planned dose intensities reproduce from dose divided by cycle interval",
+      "kind": "TRUE_NEGATIVE",
+      "arithmetic": "Planned dose intensity for 6 mg/kg"
+    },
+    {
+      "id": "A5",
+      "summary": "Equivalence margin stated as 12% where 15.2% x 0.8 gives 12.16%",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "design.equivalence_margin",
+      "evidence": "12.16"
+    },
+    {
+      "id": "A6",
+      "summary": "80% power for efficacy against 90% power for pharmacokinetics — different objectives",
+      "kind": "DECOY",
+      "conceptKey": "stat.power"
+    },
+    {
+      "id": "A7",
+      "summary": "Default 95% confidence interval against the 90% interval used for the primary criterion",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "stat.default_ci_level~equivalence.ci_level.ratio"
+    },
+    {
+      "id": "A8",
+      "summary": "95% interval for the ratio in a section the plan labels as an additional descriptive analysis",
+      "kind": "DECOY",
+      "conceptKey": "equivalence.ci_level.ratio",
+      "scope": "INTRA_DOCUMENT"
+    },
+    {
+      "id": "B1",
+      "summary": "90% confidence interval for the ratio replaces the protocol's 95%",
+      "kind": "FINDING",
+      "severity": "CRITICAL",
+      "conceptKey": "equivalence.ci_level.ratio",
+      "scope": "CROSS_DOCUMENT",
+      "evidence": "90% CI"
+    },
+    {
+      "id": "B2",
+      "summary": "Pharmacokinetic population definition revised from the protocol's",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "population.pk_set.cycle_requirement",
+      "evidence": "GTE 4 cycles"
+    },
+    {
+      "id": "B3",
+      "summary": "Nine subjects at two named sites excluded from the Per-Protocol Set, with no protocol provision",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "population.pps_site_exclusion"
+    },
+    {
+      "id": "C1",
+      "summary": "Adjuvant TEAE definition names the surgery date without a comparator",
+      "kind": "FINDING",
+      "severity": "CRITICAL",
+      "conceptKey": "definition.teae_shape",
+      "evidence": "UNQUALIFIED(SURGERY)"
+    },
+    {
+      "id": "C2",
+      "summary": "LVEF categories list one band twice and leave the lowest band uncovered",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "definition.category_set_integrity",
+      "evidence": "listed twice"
+    },
+    {
+      "id": "C3+C4",
+      "summary": "Three parallel dose intensity formulas use three different cycle offsets",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "derivation.dose_intensity_shape"
+    },
+    {
+      "id": "C5",
+      "summary": "Stated policy of no statistical comparison on safety data against three specified tests",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "policy.safety_testing_contradiction"
+    },
+    {
+      "id": "D1",
+      "summary": "Partial-date handling cited to APPENDIX 1, which is the visit-name table",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "crossref.integrity",
+      "evidence": "APPENDIX 1 is \"VISIT NAME\""
+    },
+    {
+      "id": "D2a",
+      "summary": "Modification history cites appendix 4 for CTC grading, which is appendix 6",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "crossref.integrity",
+      "evidence": "CTC Grading"
+    },
+    {
+      "id": "D2b",
+      "summary": "Modification history cites appendix 5 for the deviation definition, which is appendix 7",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "crossref.integrity",
+      "evidence": "Protocol deviation definition"
+    },
+    {
+      "id": "D3",
+      "summary": "References to APPENDIX 2, 3, 4, 5, 7, 9 and Section 11.2.2 resolve correctly",
+      "kind": "TRUE_NEGATIVE",
+      "resolvedCrossReferences": 12
+    },
+    {
+      "id": "E1",
+      "summary": "Three grading scale versions inside one plan: 4.0 generally, 4.03 for febrile neutropenia, 3.0 for cardiac",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "safety.ae_grading_scale",
+      "scope": "INTRA_DOCUMENT",
+      "evidence": "CTCAE 3.0"
+    },
+    {
+      "id": "E2",
+      "summary": "PR defined as both progesterone receptor and partial response",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "acronym.PR"
+    },
+    {
+      "id": "E3",
+      "summary": "PD defined as progression of disease and PDs as protocol deviations",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "acronym.PD"
+    },
+    {
+      "id": "E4",
+      "summary": "ATCC used for the Anatomical Therapeutic Chemical classification, whose acronym is ATC",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "standard.acronym.anatomical_therapeutic_chemical",
+      "evidence": "ATC"
+    },
+    {
+      "id": "E5",
+      "summary": "Mostellar for the Mosteller body surface area formula",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.spelling.mosteller"
+    },
+    {
+      "id": "E6",
+      "summary": "pathologic against pathological for the same defined term",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "vocabulary.pathological_complete_response"
+    },
+    {
+      "id": "E7",
+      "summary": "Sensitive Analysis in the heading against sensitivity analysis in the body",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "vocabulary.sensitivity_analysis"
+    },
+    {
+      "id": "E8",
+      "summary": "ECOG summarised as (0, 1, >1) and listed on the full 0 to 5 scale",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "reporting.ecog_scale"
+    },
+    {
+      "id": "E9a",
+      "summary": "Full Analysis Set capitalised inconsistently",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "vocabulary.full_analysis_set"
+    },
+    {
+      "id": "E9b",
+      "summary": "Per-Protocol Set capitalised inconsistently",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "vocabulary.per_protocol_set"
+    },
+    {
+      "id": "E10",
+      "summary": "CTC used for the Common Terminology Criteria for Adverse Events, whose acronym is CTCAE",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "standard.acronym.common_terminology_criteria",
+      "evidence": "CTCAE"
+    },
+    {
+      "id": "F1",
+      "summary": "One page called pCR and Pathological Complete Response",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "crf_page.pcr"
+    },
+    {
+      "id": "F2",
+      "summary": "Three referents for the clinical response page: Clinical Response, RESPONSE, CRDAT",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "crf_page.clin_response"
+    },
+    {
+      "id": "F3",
+      "summary": "Disease stage against Disease Stage",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "crf_page.disease_stage"
+    },
+    {
+      "id": "F4",
+      "summary": "Physical Examination against Physical Exam- Screening",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "crf_page.phys_examination"
+    },
+    {
+      "id": "F5",
+      "summary": "End of Study against End of Study (EOS)",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "crf_page.end_study"
+    },
+    {
+      "id": "F6",
+      "summary": "IP infusion against Non-IP Infusion",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "crf_page.non_ip_infusion"
+    },
+    {
+      "id": "G1",
+      "summary": "Stratification variable spelled hrceptor, hreceptor and hrecptor",
+      "kind": "FINDING",
+      "severity": "CRITICAL",
+      "conceptKey": "derivation.identifier.hrcptr",
+      "evidence": "hrecptor"
+    },
+    {
+      "id": "G2",
+      "summary": "Treatment variable spelled trt, trt01pn and trtn",
+      "kind": "FINDING",
+      "severity": "CRITICAL",
+      "conceptKey": "derivation.identifier.trt",
+      "evidence": "trt01pn"
+    },
+    {
+      "id": "G3",
+      "summary": "One analysis block reads from two unrelated datasets",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "derivation.dataset_consistency",
+      "evidence": "adpc"
+    },
+    {
+      "id": "G4",
+      "summary": "Stray numeric literal inside the IML block",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "derivation.code_hygiene"
+    },
+    {
+      "id": "G5",
+      "summary": "biomial for binomial in a code comment",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.spelling.binomial"
+    },
+    {
+      "id": "H1",
+      "summary": "catgory for category",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.spelling.category"
+    },
+    {
+      "id": "H2",
+      "summary": "PARAMTERS for PARAMETERS in an appendix title",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.spelling.parameters"
+    },
+    {
+      "id": "H3",
+      "summary": "ADDITONAL for ADDITIONAL in an appendix title",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.spelling.additional"
+    },
+    {
+      "id": "H4",
+      "summary": "preformed for performed",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.spelling.performed"
+    },
+    {
+      "id": "H5",
+      "summary": "Owend for Owned on the approval page",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.spelling.owned"
+    },
+    {
+      "id": "H6",
+      "summary": "there neoadjuvant studies for three neoadjuvant studies",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.wording.there_three"
+    },
+    {
+      "id": "H7",
+      "summary": "Safety Set consist of for consists of",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "standard.wording.subject_verb_agreement"
+    },
+    {
+      "id": "I1",
+      "summary": "Pre-specified equivalence criteria return opposite verdicts against the reported intervals",
+      "kind": "FINDING",
+      "severity": "CRITICAL",
+      "conceptKey": "equivalence.criteria_verdict",
+      "evidence": "NOT MET"
+    },
+    {
+      "id": "I2",
+      "summary": "Permitted ECOG status 0-1 in the protocol and CRF, 0-2 in the brochure",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "inclusion.ecog",
+      "scope": "CROSS_DOCUMENT"
+    },
+    {
+      "id": "I3",
+      "summary": "Safety follow-up 30 days in the protocol and report, 28 days on the end-of-study page",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "safety.followup_window",
+      "scope": "CROSS_DOCUMENT"
+    },
+    {
+      "id": "I4",
+      "summary": "Grading scale 4.0 in four documents and 4.03 in the brochure",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "safety.ae_grading_scale",
+      "scope": "CROSS_DOCUMENT"
+    },
+    {
+      "id": "I5",
+      "summary": "Visit window +/-3 days in the protocol and +/-5 days in the CRF",
+      "kind": "FINDING",
+      "severity": "MINOR",
+      "conceptKey": "schedule.visit_window",
+      "scope": "CROSS_DOCUMENT"
+    },
+    {
+      "id": "I6",
+      "summary": "LVEF determination required at Cycle 9 Day 1 with no CRF field",
+      "kind": "FINDING",
+      "severity": "MAJOR",
+      "conceptKey": "assessment.lvef.c9d1",
+      "scope": "CROSS_DOCUMENT"
+    },
+    {
+      "id": "I7",
+      "summary": "Phase 1 dose of 4 mg/kg once weekly quoted in the brochure alongside the confirmatory regimen",
+      "kind": "DECOY",
+      "conceptKey": "dose.regimen"
+    }
+  ]
+}

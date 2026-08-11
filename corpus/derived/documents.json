@@ -1,0 +1,47 @@
+[
+  {
+    "id": "DOC-PROT-C301",
+    "type": "PROTOCOL",
+    "fileName": "protocol.pdf",
+    "title": "Clinical Study Protocol — Study CB207-C301",
+    "version": "v2.0",
+    "effectiveDate": "2023-11-08",
+    "author": "Calibra Biologics, Inc."
+  },
+  {
+    "id": "DOC-SAP-C301",
+    "type": "SAP",
+    "fileName": "sap.pdf",
+    "title": "Statistical Analysis Plan — Study CB207-C301",
+    "version": "v1.0",
+    "effectiveDate": "2024-09-12",
+    "author": "Halcyon Clinical Research Organization (Biometrics) for Calibra Biologics, Inc."
+  },
+  {
+    "id": "DOC-CSR-C301",
+    "type": "CSR",
+    "fileName": "csr.pdf",
+    "title": "Clinical Study Report, Summary of Results — Study CB207-C301",
+    "version": "v1.0",
+    "effectiveDate": "2025-07-18",
+    "author": "Halcyon Clinical Research Organization (Biometrics) for Calibra Biologics, Inc."
+  },
+  {
+    "id": "DOC-CRF-C301",
+    "type": "CRF",
+    "fileName": "crf.pdf",
+    "title": "Case Report Form Specification and Completion Guidelines — Study CB207-C301",
+    "version": "v3.1",
+    "effectiveDate": "2023-06-30",
+    "author": "Nordvale Clinical KK — Data Management"
+  },
+  {
+    "id": "DOC-IB-CB207",
+    "type": "IB",
+    "fileName": "ib.pdf",
+    "title": "CB-207 Investigator's Brochure, Edition 4",
+    "version": "v4.0",
+    "effectiveDate": "2024-02-27",
+    "author": "Calibra Biologics, Inc. — Clinical Pharmacology"
+  }
+]
