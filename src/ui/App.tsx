@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   ListChecks,
   LogOut,
+  MessageSquare,
   PlayCircle,
   ScrollText,
   Scale,
@@ -15,6 +16,7 @@ import {
 import { RULESET_VERSION, STUDY } from '../study';
 import { useFindings, useOpenFindingCount, useStore } from '../store';
 import { SHORTHILLS_LOGO } from './brand';
+import { Assistant } from './screens/Assistant';
 import { AuditTrail } from './screens/AuditTrail';
 import { Checks } from './screens/Checks';
 import { Dashboard } from './screens/Dashboard';
@@ -29,6 +31,7 @@ import { SignIn } from './screens/SignIn';
 
 type ScreenKey =
   | 'dashboard'
+  | 'ask'
   | 'checks'
   | 'documents'
   | 'run'
@@ -51,6 +54,7 @@ type ScreenDef = { key: ScreenKey; label: string; icon: typeof FileStack; group:
  */
 const SCREENS: ScreenDef[] = [
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, group: 'Start here' },
+  { key: 'ask', label: 'Ask a question', icon: MessageSquare, group: 'Start here' },
   { key: 'checks', label: 'What we check', icon: ListChecks, group: 'Start here' },
   { key: 'documents', label: 'Document set', icon: FileStack, group: 'Reviewer workbench' },
   { key: 'run', label: 'Run QC', icon: PlayCircle, group: 'Reviewer workbench' },
@@ -178,6 +182,7 @@ export function App() {
 
         <div className="p-6">
           {screen === 'dashboard' && <Dashboard onOpenWorkbench={() => setScreen('findings')} />}
+          {screen === 'ask' && <Assistant />}
           {screen === 'checks' && <Checks />}
           {screen === 'documents' && <DocumentSet onRun={() => setScreen('run')} />}
           {screen === 'run' && <RunQc onComplete={() => setScreen('findings')} />}

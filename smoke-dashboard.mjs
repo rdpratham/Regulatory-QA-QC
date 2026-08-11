@@ -92,5 +92,41 @@ const catalogue = await page.evaluate(() => {
 console.log('catalogue:', JSON.stringify(catalogue));
 await page.screenshot({ path: '/tmp/shot-checks.png', fullPage: true });
 
+/* ---- the assistant ---------------------------------------------- */
+await page.getByRole('button', { name: 'Ask a question' }).click();
+await page.waitForSelector('text=Ask about these documents', { timeout: 10000 });
+
+const asked = [];
+for (const question of [
+  'What did you find overall?',
+  'What is wrong with the SAP?',
+  'How many patients?',
+  'What is a TFL?',
+  'what will the share price be next quarter',
+]) {
+  await page.fill('input[aria-label="Ask a question about these documents"]', question);
+  await page.getByRole('button', { name: /^Ask$/ }).click();
+  await page.waitForFunction(
+    (q) => document.body.innerText.includes(q),
+    question,
+    { timeout: 15000 },
+  );
+  const source = await page.evaluate(() => {
+    const marks = [...document.querySelectorAll('span')]
+      .map((n) => n.textContent ?? '')
+      .filter((t) => t.startsWith('answered from '));
+    return marks[marks.length - 1]?.replace('answered from ', '') ?? null;
+  });
+  asked.push({ question, source });
+}
+console.log('assistant:', JSON.stringify(asked, null, 0));
+
+// The nonsense question must be refused, not answered.
+const refused = asked[asked.length - 1];
+if (refused.source !== 'no match') {
+  throw new Error(`assistant answered a nonsense question from "${refused.source}"`);
+}
+await page.screenshot({ path: '/tmp/shot-assistant.png', fullPage: true });
+
 console.log('console errors:', errors.length ? errors.slice(0, 3) : 'none');
 await browser.close();
